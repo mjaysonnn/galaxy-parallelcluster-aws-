@@ -1,0 +1,15 @@
+runners:
+  slurm:
+    load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    drmaa_library_path: /usr/lib/slurm-drmaa/lib/libdrmaa.so.1
+
+execution:
+  default: slurm
+  environments:
+    slurm:
+      runner: slurm
+      env:
+        - name: LC_ALL
+          value: C
+        - name: SLURM_CONF
+          value: /opt/slurm/etc/slurm.conf # this is different from the default /etc/slurm/slurm.conf since it's installed through ParallelCluster

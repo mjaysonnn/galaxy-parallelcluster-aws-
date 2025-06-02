@@ -1,0 +1,36 @@
+Region: us-east-1
+Image:
+  Os: ubuntu2204 
+
+HeadNode:
+  InstanceType: c5.2xlarge
+  Networking:
+    SubnetId: subnet-***
+    AdditionalSecurityGroups:
+      - sg-***
+  Ssh:
+    KeyName: galaxy-***-***  # <-- Updated to use ed25519 key
+  LocalStorage:
+    RootVolume:
+      Size: 50
+
+Scheduling:
+  Scheduler: slurm
+  SlurmQueues:
+    - Name: compute
+      ComputeResources:
+        - Name: c5large
+          InstanceType: c5.large
+          MinCount: 0 
+          MaxCount: 3 # Launches when you submit a job
+          CapacityType: SPOT
+      Networking:
+        SubnetIds:
+          - subnet-***
+
+SharedStorage:
+  - MountDir: /mnt/efs
+    Name: efs
+    StorageType: Efs
+    EfsSettings:
+      FileSystemId: fs-*** # <-- Updated to use the correct EFS ID
